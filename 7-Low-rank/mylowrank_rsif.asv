@@ -25,7 +25,7 @@
 
 % Vectrozizing the matrix for projection
 
-function [recovered, masked, mask] = mylowrank_rsif(mat, mask_rate)
+function recovered, mask = mylowrank_rsif(mat, mask_rate)
     sample_rate = 1 - mask_rate;
     addpath('../../../MATLAB/Toolboxes/spot-1.2')
     
@@ -42,15 +42,11 @@ function [recovered, masked, mask] = mylowrank_rsif(mat, mask_rate)
     % http://www.cs.ubc.ca/labs/scl/sparco/
     A = opRestriction(prod(sizeX), IDX);
 
-    mask = zeros(size(mat));
-    mask(IDX) = 1;
+    mask = zeros(size(mat2cell))
     
     % Sampled data
     %y = A(x, 1);
     y = A*x;
-
-    masked = zeros(size(mat));
-    masked(IDX) = y;
     
     recovered = IST_MC(y, A, sizeX); % Regularized Iterated Soft Thresholding
 end
